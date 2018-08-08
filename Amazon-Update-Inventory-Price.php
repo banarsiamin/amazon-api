@@ -4,22 +4,22 @@
 *
 ***********************************************************/
 
-$sku1        = '******';
-$quantity1   = '9';
+$sku1        = '085612';
+$quantity1   = '10';
 $leadTimeToShip1 = '7';
 
 //amazon mws credentials
-$amazonSellerId         = '*******';
-$amazonMWSAuthToken     = '*******';
-$amazonAWSAccessKeyId   = '*******';
-$amazonSecretKey        = '*******';
-$amazonMarketPlaceId    = '*******';
+$amazonSellerId         = '********';
+$amazonMWSAuthToken     = '********';
+$amazonAWSAccessKeyId   = '********';
+$amazonSecretKey        = '********';
+$amazonMarketPlaceId    = '********';
 $param = array();
 $param['AWSAccessKeyId']     = $amazonAWSAccessKeyId;
 $param['Action']             = 'SubmitFeed'; 
 $param['Merchant']           = $amazonSellerId;
 $param['MWSAuthToken']       = $amazonMWSAuthToken; 
-$param['FeedType']      	 = '_POST_INVENTORY_AVAILABILITY_DATA_';
+$param['FeedType']      	 = '_POST_PRODUCT_PRICING_DATA_';
 $param['SignatureMethod']    = 'HmacSHA256';  
 $param['SignatureVersion']   = '2'; 
 $param['Timestamp']          = gmdate("Y-m-d\TH:i:s.\\0\\0\\0\\Z", time());
@@ -41,26 +41,22 @@ $amazon_feed = '<?xml version="1.0" encoding="utf-8"?>
     <DocumentVersion>1.01</DocumentVersion>
     <MerchantIdentifier>'.$amazonSellerId.'</MerchantIdentifier>
     </Header>
-    <MessageType>Inventory</MessageType>
+	<MessageType>Price</MessageType>
     <Message>
     <MessageID>1</MessageID>
     <OperationType>Update</OperationType>
-    <Inventory>
-    <SKU>'.$sku1.'</SKU>
-    <Quantity>'.$quantity1.'</Quantity>
-    </Inventory>
+	<Price>
+	<SKU>'.$sku1.'</SKU>
+	<StandardPrice currency="USD">698.00</StandardPrice>
+	</Price>
     </Message>
     </AmazonEnvelope>';// <FulfillmentLatency>'.$leadTimeToShip1.'</FulfillmentLatency>
-
 sort($url);
-
 $arr   = implode('&', $url);
-
 $sign  = 'POST' . "\n";
 $sign .= 'mws.amazonservices.com' . "\n";
 $sign .= '/Feeds/'.$param['Version'].'' . "\n";
 $sign .= $arr;
-
 $signature      = hash_hmac("sha256", $sign, $secret, true);
 $httpHeader     =   array();
 $httpHeader[]   =   'Transfer-Encoding: chunked';
@@ -72,7 +68,6 @@ $httpHeader[]   =   'Accept:';
 $signature      = urlencode(base64_encode($signature));
 $link  = "https://mws.amazonservices.com/Feeds/".$param['Version']."?";
 $link .= $arr . "&Signature=" . $signature;
-
 $ch = curl_init($link);
 curl_setopt($ch, CURLOPT_HTTPHEADER, $httpHeader);
 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);

@@ -12,8 +12,6 @@ function RandomString($length = 10) {
     }
     return strtoupper($randomString);
 }
-echo $ASIN =RandomString();
-echo"<BR>";
 echo $SKU =RandomString(6);
 echo"<BR>";
 //amazon mws credentials
@@ -56,10 +54,10 @@ echo"<BR>";
   <MessageID>1</MessageID> 
   <OperationType>Update</OperationType> 
   <Product> 
-    <SKU>IBR-$SKU-123</SKU>
+    <SKU>IBR-$SKU</SKU>
       <ProductTaxCode>A_GEN_TAX</ProductTaxCode>
       <DescriptionData> 
-        <Title>IBRDEMO KHAN $dname</Title>
+        <Title>IBRDEMO AMIN KHAN $dname</Title>
         <Brand>Bronzioni</Brand>
         <Description>IBRDEMO KHAN $dname</Description>
         <BulletPoint>10"X14". 12 LBS...Real Bronze Statues Sculptures Collectible Gift Office and Home Decor1</BulletPoint>
